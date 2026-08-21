@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f1e" />
+  <title>寻找卧底AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-decor" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="grid"></span>
+  </div>
+
+  <!-- 设置屏 -->
+  <section id="screen-setup" class="screen">
+    <div class="setup-card">
+      <header class="setup-header">
+        <div class="logo">🕵️</div>
+        <h1>寻找卧底AI</h1>
+        <p class="subtitle">谁是混在人类里的 AI？聊出来，投出去。</p>
+      </header>
+
+      <div class="field">
+        <label>模式</label>
+        <div class="seg" id="mode-seg">
+          <button type="button" data-mode="participate" class="active">🙋 参与（你 + AI）</button>
+          <button type="button" data-mode="spectate">👁️ 观战（纯 AI）</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>总人数</label>
+        <select id="total-players">
+          <option>3</option>
+          <option>4</option>
+          <option selected>5</option>
+          <option>6</option>
+        </select>
+        <span class="hint" id="count-hint"></span>
+      </div>
+
+      <div class="field" id="human-name-field">
+        <label>你的名字</label>
+        <input type="text" id="human-name" value="你" maxlength="12" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label>角色（名字 + 性格）</label>
+        <div id="character-editor"></div>
+      </div>
+
+      <div class="field">
+        <label>发言长度</label>
+        <div class="row">
+          <select id="speech-len">
+            <option value="25">极简（≤25字）</option>
+            <option value="60" selected>简短（≤60字）</option>
+            <option value="120">中等（≤120字）</option>
+            <option value="300">长篇（≤300字）</option>
+            <option value="0">手动…</option>
+          </select>
+          <input type="number" id="speech-len-manual" min="10" max="500" value="60" style="display:none" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>投票间隔（每 N 轮投一次，默认 3）</label>
+        <input type="number" id="vote-interval" min="1" max="5" value="3" />
+      </div>
+
+      <div class="field">
+        <label>DeepSeek API Key <span class="hint">仅存浏览器本地 · 直连官方</span></label>
+        <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label>模型</label>
+        <input type="text" id="model" value="deepseek-chat" autocomplete="off" />
+      </div>
+
+      <div class="actions">
+        <button id="btn-start" class="primary">开始游戏</button>
+        <button id="btn-resume" class="ghost" style="display:none">继续上次对局</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 游戏屏 -->
+  <section id="screen-game" class="screen hidden">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand-mini">🕵️ 寻找卧底AI</span>
+        <span class="badge" id="badge-round">第 1 轮</span>
+        <span class="badge" id="badge-alive">存活 0</span>
+        <span class="badge" id="badge-vote">每 3 轮投票</span>
+      </div>
+      <div class="topbar-right" id="role-banner"></div>
+    </header>
+    <main id="chat" class="chat"></main>
+    <footer class="footer"><div id="footer-content"></div></footer>
+  </section>
+
+  <!-- 揭晓屏 -->
+  <section id="screen-reveal" class="screen hidden">
+    <div class="reveal-card">
+      <div class="reveal-emoji" id="reveal-emoji">🎉</div>
+      <h1 id="reveal-title"></h1>
+      <p id="reveal-undercover"></p>
+      <div id="recap-list"></div>
+      <div id="reveal-stats"></div>
+      <div class="actions">
+        <button id="btn-again" class="primary">再来一局</button>
+        <button id="btn-back" class="ghost">返回设置</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="js/ui.js"></script>
+</body>
+</html>
